@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Minesweeper</title>
+        <style>
+            h1 {
+                text-align: center;
+            }
+          #main ul{
+              display: flex;
+              justify-content: center;
+          }
+          ul li {
+              display: inline-block;
+              border: 1px solid green;
+          }
+        </style>
+    </head>
+    <body>
+        <h1>MineSweeper</h1>
+        <section id="main">
+        </section>
+    </body>
+    <script>
+        //assuming m , n are constants 
+        //generating grid based on an array
+        //Random no.>0.5 denoting hidden mines
+        let main = document.getElementById('main');
+        let a = [[1,2,3,4,5,6],[7,8,9,10,11,12],[13,14,15,16,17,18]];
+        
+        for(let i=0;i<a.length;i++) {
+            if(Array.isArray(a[i])) {
+                let j=0;
+                let row = document.createElement('ul');
+                while(j<a[i].length) {
+                    let list = document.createElement('li');
+                    list.style.width = "100px";
+                    list.style.height ="100px";
+                    list.innerHTML = a[i][j];
+                    let span = document.createElement('span');
+                    span.innerHTML = Math.random();
+                    list.append(span);
+                    span.style.visibility ="hidden";
+                    list.onclick = handler;
+                    row.append(list);
+                    j++;
+                }
+                main.append(row);
+            }
+        }
+
+        function handler(e) {
+            const elem = e.target.childNodes[1].textContent;
+            const columnClicked = e.target.childNodes[0].textContent;
+            if(elem>0.5) {
+                alert('GAME OVER');
+            }
+            else {
+                const adjecentElem = [];
+                const arrayOfElem = e.target.parentNode.childNodes;
+                for(let i =0;i<arrayOfElem.length;i++) {
+                (function(i) {
+                    if(arrayOfElem[i].childNodes[0].textContent!==columnClicked) {
+                        adjecentElem.push(arrayOfElem[i].childNodes[0].textContent)
+                    }
+                })(i);
+                }
+                alert(adjecentElem.join(','));
+            }
+        }
+    </script>
+</html>
